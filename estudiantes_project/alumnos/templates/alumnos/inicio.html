@@ -1,0 +1,70 @@
+{% extends 'alumnos/base.html' %}
+
+{% block title %}Inicio - Sistema de Alumnos{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-light p-5 rounded-3 text-center">
+            <h1 class="display-4">📚 Sistema de Gestión de Alumnos</h1>
+            <p class="lead">Bienvenido al sistema para registrar y gestionar información de estudiantes</p>
+            <hr class="my-4">
+            <div class="row text-center mt-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="text-primary">{{ total_alumnos }}</h3>
+                            <p class="card-text">Alumnos registrados</p>
+                            <a href="{% url 'lista_alumnos' %}" class="btn btn-primary">Ver todos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="text-success">➕</h3>
+                            <p class="card-text">Registrar nuevo alumno</p>
+                            <a href="{% url 'registro_alumno' %}" class="btn btn-success">Registrar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="text-info">⚙️</h3>
+                            <p class="card-text">Panel de administración</p>
+                            <a href="/admin/" class="btn btn-info">Admin</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if ultimos_alumnos %}
+        <div class="mt-5">
+            <h3>📋 Últimos alumnos registrados</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Fecha de registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for alumno in ultimos_alumnos %}
+                        <tr>
+                            <td>{{ alumno.nombre }}</td>
+                            <td>{{ alumno.email }}</td>
+                            <td>{{ alumno.fecha_registro|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

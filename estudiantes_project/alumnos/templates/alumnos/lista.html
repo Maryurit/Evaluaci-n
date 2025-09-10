@@ -1,0 +1,81 @@
+{% extends 'alumnos/base.html' %}
+
+{% block title %}Lista de Alumnos{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>📋 Lista de Alumnos</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="text-muted">Total de alumnos: {{ total_alumnos }}</p>
+            <a href="{% url 'registro_alumno' %}" class="btn btn-success">
+                ➕ Registrar Nuevo Alumno
+            </a>
+        </div>
+
+        {% if page_obj %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Registrado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for alumno in page_obj %}
+                        <tr>
+                            <td>{{ alumno.nombre }}</td>
+                            <td>{{ alumno.email }}</td>
+                            <td>{{ alumno.telefono }}</td>
+                            <td>{{ alumno.fecha_nacimiento|date:"d/m/Y" }}</td>
+                            <td>{{ alumno.fecha_registro|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            {% if page_obj.has_other_pages %}
+            <nav aria-label="Navegación de páginas">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">Primera</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                        </span>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-info text-center">
+                <h4>📝 No hay alumnos registrados</h4>
+                <p>¡Comienza registrando el primer alumno!</p>
+                <a href="{% url 'registro_alumno' %}" class="btn btn-primary">Registrar Primer Alumno</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
