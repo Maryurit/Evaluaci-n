@@ -59,7 +59,7 @@ WSGI_APPLICATION = 'estudiantes_project.wsgi.application'
 # Database configuration
 if config('DATABASE_URL', default=None):
     DATABASES = {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
+        'default': dj_database_url.parse(config("DATABASE_URL"))
     }
 else:
     DATABASES = {
